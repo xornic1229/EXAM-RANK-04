@@ -111,3 +111,5 @@ def sliding_window_maximum(nums: list[int], k: int) -> list[int]:
         resultado += [mejor]
         i+=1
     return resultado
+
+
