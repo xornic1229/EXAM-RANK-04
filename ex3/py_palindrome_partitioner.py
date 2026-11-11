@@ -1,35 +1,23 @@
 
 def palindrome_partitioner(s: str) -> int:
+    if s == s[::-1]:
+        return 0
+
     n = 0
     for c in s:
         n += 1
 
-    if n < 2:
-        return 0
+    mejor = n - 1
+    i = 1
 
-    cuts = []
-    i = 0
     while i < n:
-        cuts += [i]
+        parte = s[:i]
+
+        if parte == parte[::-1]:
+            cortes = 1 + palindrome_partitioner(s[i:])
+            if mejor>cortes:
+                mejor = cortes
+
         i += 1
 
-    i = 0
-    while i < n:
-        for j in (0, 1):
-            left = i
-            right = i + j
-
-            while left >= 0 and right < n and s[left] == s[right]:
-                if left == 0:
-                    new = 0
-                else:
-                    new = cuts[left - 1] + 1
-
-                if new < cuts[right]:
-                    cuts[right] = new
-
-                left -= 1
-                right += 1
-        i += 1
-
-    return cuts[-1]
+    return mejor

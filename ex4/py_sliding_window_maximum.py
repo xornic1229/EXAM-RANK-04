@@ -1,31 +1,20 @@
-
 def sliding_window_maximum(nums: list[int], k: int) -> list[int]:
     n = 0
-    for x in nums:
+    for num in nums:
         n += 1
 
     if k <= 0 or k > n:
         return []
 
-    queue = [0] * n
-    head = 0
-    tail = 0
-    result = []
-
+    resultado = []
     i = 0
-    while i < n:
-        if head < tail and queue[head] <= i - k:
-            head += 1
-
-        while head < tail and nums[queue[tail - 1]] <= nums[i]:
-            tail -= 1
-
-        queue[tail] = i
-        tail += 1
-
-        if i >= k - 1:
-            result += [nums[queue[head]]]
-
-        i += 1
-
-    return result
+    while i+k<=n:
+        mejor = nums[i]
+        a = 1
+        while a < k:
+            if nums[i+a] > mejor:
+                mejor = nums[i+a]
+            a+=1
+        resultado += [mejor]
+        i+=1
+    return resultado

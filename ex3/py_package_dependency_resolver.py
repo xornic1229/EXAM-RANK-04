@@ -1,20 +1,28 @@
 
 def package_dependency_resolver(packages: dict[str, list[str]]) -> list[str]:
-    result = []
-    pending = sorted(packages)
+    pendientes = sorted(packages)
+    resultado = []
 
-    while pending:
+    while pendientes:
         ready = []
 
-        for pkg in pending:
-            if all(dep not in packages or dep in result for dep in packages[pkg]):
-                ready.append(pkg)
+        for paquete in pendientes:
+            listo = 1
+            necesita = packages[paquete]
 
-        if not ready:
+            for requerimiento in necesita:
+                if requerimiento in packages and requerimiento not in resultado:  ##ya que si el requerimiento no esta es ningun paquete se puede instalar
+                    listo = 0
+
+            if listo == 1:
+                ready.append(paquete)
+
+        if ready == []:
             return []
 
-        for pkg in ready:
-            result.append(pkg)
-            pending.remove(pkg)
+        resultado += ready
 
-    return result
+        for paquete in ready:
+            pendientes.remove(paquete)
+
+    return resultado
